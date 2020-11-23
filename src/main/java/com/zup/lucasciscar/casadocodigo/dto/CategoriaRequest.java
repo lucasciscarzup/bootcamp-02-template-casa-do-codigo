@@ -1,4 +1,4 @@
-package com.zup.lucasciscar.casadocodigo.dto.request;
+package com.zup.lucasciscar.casadocodigo.dto;
 
 import com.zup.lucasciscar.casadocodigo.entity.Categoria;
 import com.zup.lucasciscar.casadocodigo.validator.UniqueValue;

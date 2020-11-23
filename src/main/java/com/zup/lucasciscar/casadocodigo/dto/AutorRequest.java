@@ -1,4 +1,4 @@
-package com.zup.lucasciscar.casadocodigo.dto.request;
+package com.zup.lucasciscar.casadocodigo.dto;
 
 import com.zup.lucasciscar.casadocodigo.entity.Autor;
 import com.zup.lucasciscar.casadocodigo.validator.UniqueValue;
@@ -21,7 +21,7 @@ public class AutorRequest {
     @Size(max = 400)
     private String descricao;
 
-    public AutorRequest(String nome, String email, String descricao) {
+    public AutorRequest(@NotBlank String nome, @NotBlank @Email String email, @NotBlank @Size(max = 400) String descricao) {
         this.nome = nome;
         this.email = email;
         this.descricao = descricao;
