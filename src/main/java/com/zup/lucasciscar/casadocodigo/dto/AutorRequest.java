@@ -1,6 +1,7 @@
 package com.zup.lucasciscar.casadocodigo.dto;
 
 import com.zup.lucasciscar.casadocodigo.entity.Autor;
+import com.zup.lucasciscar.casadocodigo.validator.UniqueValue;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ public class AutorRequest {
 
     @NotBlank
     @Email
+    @UniqueValue(domainClass = Autor.class, fieldName = "email")
     private String email;
 
     @NotBlank
@@ -27,6 +29,10 @@ public class AutorRequest {
 
     public Autor toModel() {
         return new Autor(nome, email, descricao);
+    }
+
+    public String getEmail() {
+        return email;
     }
 
 }
