@@ -1,4 +1,4 @@
-package com.zup.lucasciscar.casadocodigo.dto;
+package com.zup.lucasciscar.casadocodigo.dto.request;
 
 import com.zup.lucasciscar.casadocodigo.entity.Categoria;
 import com.zup.lucasciscar.casadocodigo.validator.UniqueValue;
@@ -17,10 +17,6 @@ public class CategoriaRequest {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
 }

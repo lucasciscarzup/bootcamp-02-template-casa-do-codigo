@@ -1,7 +1,8 @@
 package com.zup.lucasciscar.casadocodigo.controller;
 
-import com.zup.lucasciscar.casadocodigo.dto.CategoriaRequest;
+import com.zup.lucasciscar.casadocodigo.dto.request.CategoriaRequest;
 import com.zup.lucasciscar.casadocodigo.entity.Categoria;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +20,11 @@ public class CategoriaController {
 
     @PostMapping("/categoria")
     @Transactional
-    public String criarCategoria(@RequestBody @Valid CategoriaRequest categoriaRequest) {
+    public ResponseEntity<?> criarCategoria(@RequestBody @Valid CategoriaRequest categoriaRequest) {
         Categoria categoria = categoriaRequest.toModel();
         entityManager.persist(categoria);
 
-        return categoria.toString();
+        return ResponseEntity.ok(categoria.fromModel());
     }
 
 }

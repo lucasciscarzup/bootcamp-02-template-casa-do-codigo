@@ -1,5 +1,7 @@
 package com.zup.lucasciscar.casadocodigo.entity;
 
+import com.zup.lucasciscar.casadocodigo.dto.response.CategoriaResponse;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -24,12 +26,8 @@ public class Categoria {
         this.nome = nome;
     }
 
-    @Override
-    public String toString() {
-        return "Categoria{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                '}';
+    public CategoriaResponse fromModel() {
+        return new CategoriaResponse(nome);
     }
 
 }

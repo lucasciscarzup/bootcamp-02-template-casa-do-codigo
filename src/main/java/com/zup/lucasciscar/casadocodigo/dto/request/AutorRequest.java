@@ -1,4 +1,4 @@
-package com.zup.lucasciscar.casadocodigo.dto;
+package com.zup.lucasciscar.casadocodigo.dto.request;
 
 import com.zup.lucasciscar.casadocodigo.entity.Autor;
 import com.zup.lucasciscar.casadocodigo.validator.UniqueValue;
@@ -29,10 +29,6 @@ public class AutorRequest {
 
     public Autor toModel() {
         return new Autor(nome, email, descricao);
-    }
-
-    public String getEmail() {
-        return email;
     }
 
 }

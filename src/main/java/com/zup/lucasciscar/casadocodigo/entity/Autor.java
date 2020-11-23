@@ -1,6 +1,7 @@
 package com.zup.lucasciscar.casadocodigo.entity;
 
 import com.sun.istack.NotNull;
+import com.zup.lucasciscar.casadocodigo.dto.response.AutorResponse;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -46,14 +47,7 @@ public class Autor {
         this.descricao = descricao;
     }
 
-    @Override
-    public String toString() {
-        return "Autor{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", criadoEm=" + criadoEm +
-                '}';
+    public AutorResponse fromModel() {
+        return new AutorResponse(nome, email, descricao);
     }
 }
