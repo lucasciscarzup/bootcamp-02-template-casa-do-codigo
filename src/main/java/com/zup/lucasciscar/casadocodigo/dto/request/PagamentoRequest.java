@@ -1,11 +1,14 @@
 package com.zup.lucasciscar.casadocodigo.dto.request;
 
 import com.zup.lucasciscar.casadocodigo.entity.Estado;
+import com.zup.lucasciscar.casadocodigo.entity.Pagamento;
 import com.zup.lucasciscar.casadocodigo.entity.Pais;
 import com.zup.lucasciscar.casadocodigo.validator.ExistsId;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 
+import javax.persistence.EntityManager;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -47,9 +50,14 @@ public class PagamentoRequest {
     @NotBlank
     private String cep;
 
-    public PagamentoRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome, @NotBlank String documento,
-                            @NotBlank String endereco, @NotBlank String complemento, @NotBlank String cidade, @NotNull Long idPais,
-                            Long idEstado, @NotBlank String telefone, @NotBlank String cep) {
+    @Valid
+    @NotNull
+    private CarrinhoRequest carrinho;
+
+    public PagamentoRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
+                            @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
+                            @NotBlank String cidade, @NotNull Long idPais, Long idEstado, @NotBlank String telefone,
+                            @NotBlank String cep, @Valid @NotNull CarrinhoRequest carrinho) {
         this.email = email;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -61,6 +69,7 @@ public class PagamentoRequest {
         this.idEstado = idEstado;
         this.telefone = telefone;
         this.cep = cep;
+        this.carrinho = carrinho;
     }
 
     public String getDocumento() {
@@ -75,6 +84,10 @@ public class PagamentoRequest {
         return idEstado;
     }
 
+    public CarrinhoRequest getCarrinho() {
+        return carrinho;
+    }
+
     public boolean documentoValido() {
         CPFValidator cpfValidator = new CPFValidator();
         cpfValidator.initialize(null);
@@ -83,6 +96,16 @@ public class PagamentoRequest {
         cnpjValidator.initialize(null);
 
         return cpfValidator.isValid(documento, null) || cnpjValidator.isValid(documento, null);
+    }
+
+    public Pagamento toModel(EntityManager entityManager) {
+        Pais pais = entityManager.find(Pais.class, idPais);
+        Pagamento pagamento = new Pagamento(email, nome, sobrenome, documento, endereco, complemento, cidade, pais,
+                                            telefone, cep);
+        if(idEstado != null)
+            pagamento.setEstado(entityManager.find(Estado.class, idEstado));
+
+        return pagamento;
     }
 
 }

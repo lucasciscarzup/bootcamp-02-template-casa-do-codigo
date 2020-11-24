@@ -1,6 +1,7 @@
 package com.zup.lucasciscar.casadocodigo.controller;
 
 import com.zup.lucasciscar.casadocodigo.dto.request.PagamentoRequest;
+import com.zup.lucasciscar.casadocodigo.entity.Pagamento;
 import com.zup.lucasciscar.casadocodigo.validator.DocumentoValidator;
 import com.zup.lucasciscar.casadocodigo.validator.EstadoPaisValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,10 @@ public class PagamentoController {
     @PostMapping("/pagamento")
     @Transactional
     public ResponseEntity<?> fazerPagamento(@RequestBody @Valid PagamentoRequest pagamentoRequest) {
-        return ResponseEntity.ok(pagamentoRequest.toString());
+        Pagamento pagamento = pagamentoRequest.toModel(entityManager);
+        entityManager.persist(pagamento);
+
+        return ResponseEntity.ok(pagamento.toString());
     }
 
 }
