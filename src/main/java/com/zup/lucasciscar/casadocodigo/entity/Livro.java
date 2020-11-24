@@ -74,6 +74,22 @@ public class Livro {
         this.autor = autor;
     }
 
+    @Override
+    public String toString() {
+        return "Livro{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", resumo='" + resumo + '\'' +
+                ", sumario='" + sumario + '\'' +
+                ", preco=" + preco +
+                ", numPaginas=" + numPaginas +
+                ", isbn='" + isbn + '\'' +
+                ", dataPublicacao=" + dataPublicacao +
+                ", categoria=" + categoria +
+                ", autor=" + autor +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
@@ -106,12 +122,8 @@ public class Livro {
         return dataPublicacao;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
     public Autor getAutor() {
         return autor;
     }
-    
+
 }

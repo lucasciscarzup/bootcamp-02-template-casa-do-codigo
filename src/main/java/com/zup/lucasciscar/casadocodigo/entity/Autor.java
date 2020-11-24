@@ -46,24 +46,23 @@ public class Autor {
         this.descricao = descricao;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "Autor{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", criadoEm=" + criadoEm +
+                '}';
     }
 
     public String getNome() {
         return nome;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public String getDescricao() {
         return descricao;
-    }
-
-    public LocalDateTime getCriadoEm() {
-        return criadoEm;
     }
 
 }

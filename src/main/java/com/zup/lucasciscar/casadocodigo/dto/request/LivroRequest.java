@@ -1,4 +1,4 @@
-package com.zup.lucasciscar.casadocodigo.dto;
+package com.zup.lucasciscar.casadocodigo.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zup.lucasciscar.casadocodigo.entity.Autor;
