@@ -36,7 +36,7 @@ public class CompraController {
         binder.addValidators(documentoValidator, estadoPaisValidator, estadoRequiredValidator);
     }
 
-    @PostMapping("/compra")
+    @PostMapping("/compras")
     @Transactional
     public ResponseEntity<?> fazerCompra(@RequestBody @Valid CompraRequest compraRequest) {
         Compra compra = compraRequest.toModel(entityManager);

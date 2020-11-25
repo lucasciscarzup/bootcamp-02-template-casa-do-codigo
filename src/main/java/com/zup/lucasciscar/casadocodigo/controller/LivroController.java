@@ -21,7 +21,7 @@ public class LivroController {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @PostMapping("/livro")
+    @PostMapping("/livros")
     @Transactional
     public ResponseEntity<?> criarLivro(@RequestBody @Valid LivroRequest livroRequest) {
         Livro livro = livroRequest.toModel(entityManager);

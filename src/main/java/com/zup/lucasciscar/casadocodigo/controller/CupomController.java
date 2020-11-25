@@ -1,7 +1,8 @@
 package com.zup.lucasciscar.casadocodigo.controller;
 
-import com.zup.lucasciscar.casadocodigo.dto.request.AutorRequest;
-import com.zup.lucasciscar.casadocodigo.entity.Autor;
+import com.zup.lucasciscar.casadocodigo.dto.request.CupomRequest;
+import com.zup.lucasciscar.casadocodigo.dto.response.CupomResponse;
+import com.zup.lucasciscar.casadocodigo.entity.Cupom;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,18 +14,19 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @RestController
-public class AutorController {
+public class CupomController {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    @PostMapping("/autores")
+    @PostMapping("/cupons")
     @Transactional
-    public ResponseEntity<?> criarAutor(@RequestBody @Valid AutorRequest autorRequest) {
-        Autor autor = autorRequest.toModel();
-        entityManager.persist(autor);
+    public ResponseEntity<?> criarCupom(@RequestBody @Valid CupomRequest cupomRequest) {
+        Cupom cupom = cupomRequest.toModel();
+        entityManager.persist(cupom);
 
-        return ResponseEntity.ok(autor.toString());
+        CupomResponse cupomResponse = new CupomResponse(cupom);
+        return ResponseEntity.ok(cupomResponse);
     }
 
 }

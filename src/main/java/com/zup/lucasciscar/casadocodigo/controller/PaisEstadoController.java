@@ -20,7 +20,7 @@ public class PaisEstadoController {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @PostMapping("/pais")
+    @PostMapping("/paises")
     @Transactional
     public ResponseEntity<?> criarPais(@RequestBody @Valid PaisRequest paisRequest) {
         Pais pais = paisRequest.toModel();
@@ -29,7 +29,7 @@ public class PaisEstadoController {
         return ResponseEntity.ok(pais.toString());
     }
 
-    @PostMapping("/estado")
+    @PostMapping("/estados")
     @Transactional
     public ResponseEntity<?> criarEstado(@RequestBody @Valid EstadoRequest estadoRequest) {
         Estado estado = estadoRequest.toModel(entityManager);
