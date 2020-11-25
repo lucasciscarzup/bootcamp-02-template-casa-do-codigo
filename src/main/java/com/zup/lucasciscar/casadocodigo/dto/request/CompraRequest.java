@@ -1,7 +1,8 @@
 package com.zup.lucasciscar.casadocodigo.dto.request;
 
+import com.zup.lucasciscar.casadocodigo.entity.Carrinho;
 import com.zup.lucasciscar.casadocodigo.entity.Estado;
-import com.zup.lucasciscar.casadocodigo.entity.Pagamento;
+import com.zup.lucasciscar.casadocodigo.entity.Compra;
 import com.zup.lucasciscar.casadocodigo.entity.Pais;
 import com.zup.lucasciscar.casadocodigo.validator.ExistsId;
 import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
@@ -12,8 +13,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.function.Function;
 
-public class PagamentoRequest {
+public class CompraRequest {
 
     @NotBlank
     @Email
@@ -52,12 +54,12 @@ public class PagamentoRequest {
 
     @Valid
     @NotNull
-    private CarrinhoRequest carrinho;
+    private CarrinhoRequest carrinhoRequest;
 
-    public PagamentoRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
-                            @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
-                            @NotBlank String cidade, @NotNull Long idPais, Long idEstado, @NotBlank String telefone,
-                            @NotBlank String cep, @Valid @NotNull CarrinhoRequest carrinho) {
+    public CompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
+                         @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
+                         @NotBlank String cidade, @NotNull Long idPais, Long idEstado, @NotBlank String telefone,
+                         @NotBlank String cep, @Valid @NotNull CarrinhoRequest carrinhoRequest) {
         this.email = email;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -69,7 +71,7 @@ public class PagamentoRequest {
         this.idEstado = idEstado;
         this.telefone = telefone;
         this.cep = cep;
-        this.carrinho = carrinho;
+        this.carrinhoRequest = carrinhoRequest;
     }
 
     public String getDocumento() {
@@ -84,8 +86,8 @@ public class PagamentoRequest {
         return idEstado;
     }
 
-    public CarrinhoRequest getCarrinho() {
-        return carrinho;
+    public CarrinhoRequest getCarrinhoRequest() {
+        return carrinhoRequest;
     }
 
     public boolean documentoValido() {
@@ -98,14 +100,17 @@ public class PagamentoRequest {
         return cpfValidator.isValid(documento, null) || cnpjValidator.isValid(documento, null);
     }
 
-    public Pagamento toModel(EntityManager entityManager) {
+    public Compra toModel(EntityManager entityManager) {
         Pais pais = entityManager.find(Pais.class, idPais);
-        Pagamento pagamento = new Pagamento(email, nome, sobrenome, documento, endereco, complemento, cidade, pais,
-                                            telefone, cep);
-        if(idEstado != null)
-            pagamento.setEstado(entityManager.find(Estado.class, idEstado));
 
-        return pagamento;
+        Function<Compra, Carrinho> funcaoCriaCarrinho = carrinhoRequest.toModel(entityManager);
+        Compra compra = new Compra(email, nome, sobrenome, documento, endereco, complemento, cidade, pais,
+                                            telefone, cep, funcaoCriaCarrinho);
+        if(idEstado != null) {
+            compra.setEstado(entityManager.find(Estado.class, idEstado));
+        }
+
+        return compra;
     }
 
 }

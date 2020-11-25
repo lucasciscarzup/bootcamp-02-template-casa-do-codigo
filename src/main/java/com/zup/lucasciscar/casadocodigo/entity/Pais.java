@@ -41,4 +41,8 @@ public class Pais {
         return Objects.equals(nome, pais.nome);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome);
+    }
 }

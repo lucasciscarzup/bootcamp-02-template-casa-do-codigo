@@ -1,15 +1,14 @@
 package com.zup.lucasciscar.casadocodigo.entity;
 
-import com.zup.lucasciscar.casadocodigo.validator.ExistsId;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.function.Function;
 
 @Entity
-@Table(name = "pagamentos")
-public class Pagamento {
+@Table(name = "compras")
+public class Compra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,9 +49,13 @@ public class Pagamento {
     @NotBlank
     private String cep;
 
-    public Pagamento(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
-                     @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
-                     @NotBlank String cidade, @NotNull Pais pais, @NotBlank String telefone, @NotBlank String cep) {
+    @OneToOne(mappedBy = "compra", cascade = CascadeType.PERSIST)
+    private Carrinho carrinho;
+
+    public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
+                  @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
+                  @NotBlank String cidade, @NotNull Pais pais, @NotBlank String telefone, @NotBlank String cep,
+                  Function<Compra, Carrinho> funcaoCriaCarrinho) {
         this.email = email;
         this.nome = nome;
         this.sobrenome = sobrenome;
@@ -63,6 +66,7 @@ public class Pagamento {
         this.pais = pais;
         this.telefone = telefone;
         this.cep = cep;
+        this.carrinho = funcaoCriaCarrinho.apply(this);
     }
 
     public void setEstado(Estado estado) {
@@ -71,7 +75,7 @@ public class Pagamento {
 
     @Override
     public String toString() {
-        return "Pagamento{" +
+        return "Compra{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
                 ", nome='" + nome + '\'' +

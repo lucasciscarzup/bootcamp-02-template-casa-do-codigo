@@ -1,9 +1,10 @@
 package com.zup.lucasciscar.casadocodigo.controller;
 
-import com.zup.lucasciscar.casadocodigo.dto.request.PagamentoRequest;
-import com.zup.lucasciscar.casadocodigo.entity.Pagamento;
+import com.zup.lucasciscar.casadocodigo.dto.request.CompraRequest;
+import com.zup.lucasciscar.casadocodigo.entity.Compra;
 import com.zup.lucasciscar.casadocodigo.validator.DocumentoValidator;
 import com.zup.lucasciscar.casadocodigo.validator.EstadoPaisValidator;
+import com.zup.lucasciscar.casadocodigo.validator.EstadoRequiredValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -18,7 +19,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @RestController
-public class PagamentoController {
+public class CompraController {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -27,19 +28,21 @@ public class PagamentoController {
     private DocumentoValidator documentoValidator;
     @Autowired
     private EstadoPaisValidator estadoPaisValidator;
+    @Autowired
+    private EstadoRequiredValidator estadoRequiredValidator;
 
     @InitBinder
     public void init(WebDataBinder binder) {
-        binder.addValidators(documentoValidator, estadoPaisValidator);
+        binder.addValidators(documentoValidator, estadoPaisValidator, estadoRequiredValidator);
     }
 
-    @PostMapping("/pagamento")
+    @PostMapping("/compra")
     @Transactional
-    public ResponseEntity<?> fazerPagamento(@RequestBody @Valid PagamentoRequest pagamentoRequest) {
-        Pagamento pagamento = pagamentoRequest.toModel(entityManager);
-        entityManager.persist(pagamento);
+    public ResponseEntity<?> fazerCompra(@RequestBody @Valid CompraRequest compraRequest) {
+        Compra compra = compraRequest.toModel(entityManager);
+        entityManager.persist(compra);
 
-        return ResponseEntity.ok(pagamento.toString());
+        return ResponseEntity.ok(compra.toString());
     }
 
 }

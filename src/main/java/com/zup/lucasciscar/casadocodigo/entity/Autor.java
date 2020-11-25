@@ -32,8 +32,7 @@ public class Autor {
 
     @NotNull
     @PastOrPresent
-    @CreationTimestamp
-    private LocalDateTime criadoEm;
+    private LocalDateTime criadoEm = LocalDateTime.now();
 
     @Deprecated
     public Autor() {

@@ -1,17 +1,16 @@
 package com.zup.lucasciscar.casadocodigo.validator;
 
 import com.zup.lucasciscar.casadocodigo.dto.request.CompraRequest;
-import com.zup.lucasciscar.casadocodigo.entity.Estado;
-import com.zup.lucasciscar.casadocodigo.entity.Pais;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 @Component
-public class EstadoPaisValidator implements Validator {
+public class EstadoRequiredValidator implements Validator {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -28,13 +27,11 @@ public class EstadoPaisValidator implements Validator {
 
         CompraRequest request = (CompraRequest) o;
 
-        if(request.getIdEstado() != null) {
-            Pais pais = entityManager.find(Pais.class, request.getIdPais());
-            Estado estado = entityManager.find(Estado.class, request.getIdEstado());
+        Query query = entityManager.createQuery("from Estado where pais_id = :value");
+        query.setParameter("value", request.getIdPais());
 
-            if(!estado.pertencePais(pais))
-                errors.rejectValue("idEstado", null, "Estado não pertence ao País selecionado");
-        }
+        // Se tiver Estados cadastrados com o idPais e o idEstado da request for null
+        if(!query.getResultList().isEmpty() && request.getIdEstado() == null)
+            errors.rejectValue("idEstado", null, "Estado obrigatório para esse País");
     }
-
 }

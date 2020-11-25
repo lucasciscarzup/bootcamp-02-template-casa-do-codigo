@@ -47,7 +47,7 @@ public class LivroController {
     public ResponseEntity<?> detalharLivro(@PathVariable("id") Long idLivro) {
         Livro livro = entityManager.find(Livro.class, idLivro);
         if(livro == null)
-            return ResponseEntity.notFound().build();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado");
 
         LivroDetalheResponse livroDetalhe = new LivroDetalheResponse(livro);
 

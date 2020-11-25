@@ -1,6 +1,6 @@
 package com.zup.lucasciscar.casadocodigo.validator;
 
-import com.zup.lucasciscar.casadocodigo.dto.request.PagamentoRequest;
+import com.zup.lucasciscar.casadocodigo.dto.request.CompraRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -10,7 +10,7 @@ public class DocumentoValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return PagamentoRequest.class.isAssignableFrom(aClass);
+        return CompraRequest.class.isAssignableFrom(aClass);
     }
 
     @Override
@@ -18,7 +18,7 @@ public class DocumentoValidator implements Validator {
         if(errors.hasErrors())
             return;
 
-        PagamentoRequest request = (PagamentoRequest) o;
+        CompraRequest request = (CompraRequest) o;
         if(!request.documentoValido())
             errors.rejectValue("documento", null, "CPF/CNPJ inválido");
     }
