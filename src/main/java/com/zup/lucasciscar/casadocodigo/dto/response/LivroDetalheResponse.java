@@ -1,5 +1,8 @@
 package com.zup.lucasciscar.casadocodigo.dto.response;
 
+import com.zup.lucasciscar.casadocodigo.entity.Autor;
+import com.zup.lucasciscar.casadocodigo.entity.Categoria;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -13,11 +16,11 @@ public class LivroDetalheResponse {
     private int numPaginas;
     private String isbn;
     private String dataPublicacao;
-    private String nomeAutor;
-    private String descricaoAutor;
+    private CategoriaResponse categoria;
+    private AutorResponse autor;
 
-    public LivroDetalheResponse(String titulo, String resumo, String sumario, BigDecimal preco, int numPaginas,
-                                String isbn, LocalDate dataPublicacao, String nomeAutor, String descricaoAutor) {
+    public LivroDetalheResponse(String titulo, String resumo, String sumario, BigDecimal preco, int numPaginas, String isbn,
+                                LocalDate dataPublicacao, Categoria categoria, Autor autor) {
         this.titulo = titulo;
         this.resumo = resumo;
         this.sumario = sumario;
@@ -25,8 +28,8 @@ public class LivroDetalheResponse {
         this.numPaginas = numPaginas;
         this.isbn = isbn;
         this.dataPublicacao = dataPublicacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        this.nomeAutor = nomeAutor;
-        this.descricaoAutor = descricaoAutor;
+        this.categoria = new CategoriaResponse(categoria);
+        this.autor = new AutorResponse(autor);
     }
 
     public String getTitulo() {
@@ -57,11 +60,11 @@ public class LivroDetalheResponse {
         return dataPublicacao;
     }
 
-    public String getNomeAutor() {
-        return nomeAutor;
+    public CategoriaResponse getCategoria() {
+        return categoria;
     }
 
-    public String getDescricaoAutor() {
-        return descricaoAutor;
+    public AutorResponse getAutor() {
+        return autor;
     }
 }

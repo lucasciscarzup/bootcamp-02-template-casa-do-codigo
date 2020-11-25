@@ -73,22 +73,7 @@ public class Compra {
         this.estado = estado;
     }
 
-    @Override
-    public String toString() {
-        return "Compra{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", nome='" + nome + '\'' +
-                ", sobrenome='" + sobrenome + '\'' +
-                ", documento='" + documento + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", complemento='" + complemento + '\'' +
-                ", cidade='" + cidade + '\'' +
-                ", pais=" + pais +
-                ", estado=" + estado +
-                ", telefone='" + telefone + '\'' +
-                ", cep='" + cep + '\'' +
-                '}';
+    public Long getId() {
+        return id;
     }
-
 }

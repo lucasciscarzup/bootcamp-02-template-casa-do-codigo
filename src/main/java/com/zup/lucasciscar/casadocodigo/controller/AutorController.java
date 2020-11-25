@@ -1,6 +1,7 @@
 package com.zup.lucasciscar.casadocodigo.controller;
 
 import com.zup.lucasciscar.casadocodigo.dto.request.AutorRequest;
+import com.zup.lucasciscar.casadocodigo.dto.response.AutorResponse;
 import com.zup.lucasciscar.casadocodigo.entity.Autor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +25,8 @@ public class AutorController {
         Autor autor = autorRequest.toModel();
         entityManager.persist(autor);
 
-        return ResponseEntity.ok(autor.toString());
+        AutorResponse autorResponse = new AutorResponse(autor);
+        return ResponseEntity.ok(autorResponse);
     }
 
 }

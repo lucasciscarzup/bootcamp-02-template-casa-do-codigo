@@ -32,13 +32,12 @@ public class Estado {
         this.pais = pais;
     }
 
-    @Override
-    public String toString() {
-        return "Estado{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", pais=" + pais +
-                '}';
+    public String getNome() {
+        return nome;
+    }
+
+    public Pais getPais() {
+        return pais;
     }
 
     public boolean pertencePais(Pais pais) {

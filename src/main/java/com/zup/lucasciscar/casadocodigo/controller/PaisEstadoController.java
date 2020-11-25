@@ -2,6 +2,8 @@ package com.zup.lucasciscar.casadocodigo.controller;
 
 import com.zup.lucasciscar.casadocodigo.dto.request.EstadoRequest;
 import com.zup.lucasciscar.casadocodigo.dto.request.PaisRequest;
+import com.zup.lucasciscar.casadocodigo.dto.response.EstadoResponse;
+import com.zup.lucasciscar.casadocodigo.dto.response.PaisResponse;
 import com.zup.lucasciscar.casadocodigo.entity.Estado;
 import com.zup.lucasciscar.casadocodigo.entity.Pais;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,8 @@ public class PaisEstadoController {
         Pais pais = paisRequest.toModel();
         entityManager.persist(pais);
 
-        return ResponseEntity.ok(pais.toString());
+        PaisResponse paisResponse = new PaisResponse(pais);
+        return ResponseEntity.ok(paisResponse);
     }
 
     @PostMapping("/estados")
@@ -35,7 +38,8 @@ public class PaisEstadoController {
         Estado estado = estadoRequest.toModel(entityManager);
         entityManager.persist(estado);
 
-        return ResponseEntity.ok(estado.toString());
+        EstadoResponse estadoResponse = new EstadoResponse(estado);
+        return ResponseEntity.ok(estadoResponse);
     }
 
 }

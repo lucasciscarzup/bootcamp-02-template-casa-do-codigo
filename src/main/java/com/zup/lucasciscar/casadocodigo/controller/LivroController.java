@@ -52,10 +52,9 @@ public class LivroController {
         LivroDetalheResponse livroDetalheResponse = entityManager.createQuery(
                 " select new com.zup.lucasciscar.casadocodigo.dto.response.LivroDetalheResponse(" +
                         " l.titulo, l.resumo, l.sumario, l.preco, l.numPaginas," +
-                        " l.isbn, l.dataPublicacao, a.nome, a.descricao" +
+                        " l.isbn, l.dataPublicacao, l.categoria, l.autor" +
                         " ) " +
                         " from Livro l" +
-                        " inner join Autor a on l.autor = a.id" +
                         " where l.id = :value", LivroDetalheResponse.class
         ).setParameter("value", idLivro).getSingleResult();
 
