@@ -67,9 +67,6 @@ public class LivroRequest {
         Categoria categoria = entityManager.find(Categoria.class, idCategoria);
         Autor autor = entityManager.find(Autor.class, idAutor);
 
-        Assert.state(categoria != null, "Categoria não existe no sistema");
-        Assert.state(autor != null, "Autor não existe no sistema");
-
         return new Livro(titulo, resumo, sumario, preco, numPaginas, isbn, dataPublicacao, categoria, autor);
     }
 

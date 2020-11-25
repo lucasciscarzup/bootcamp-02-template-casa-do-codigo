@@ -1,10 +1,9 @@
 package com.zup.lucasciscar.casadocodigo.controller;
 
+import com.zup.lucasciscar.casadocodigo.dto.request.LivroRequest;
 import com.zup.lucasciscar.casadocodigo.dto.response.LivroDetalheResponse;
 import com.zup.lucasciscar.casadocodigo.dto.response.LivroIdTituloResponse;
-import com.zup.lucasciscar.casadocodigo.dto.request.LivroRequest;
 import com.zup.lucasciscar.casadocodigo.entity.Livro;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class LivroController {
@@ -35,11 +33,13 @@ public class LivroController {
     @GetMapping("/livros")
     @Transactional
     public ResponseEntity<?> buscarLivros() {
-        List<Livro> livros = entityManager.createQuery("from Livro").getResultList();
-        List<LivroIdTituloResponse> livrosResponse = livros.stream()
-                .map(livro -> new LivroIdTituloResponse(livro)).collect(Collectors.toList());
+        List<LivroIdTituloResponse> livros = entityManager.createQuery(
+                " select new com.zup.lucasciscar.casadocodigo.dto.response.LivroIdTituloResponse(id, titulo)" +
+                        " from Livro" +
+                        " order by id", LivroIdTituloResponse.class
+        ).getResultList();
 
-        return ResponseEntity.ok(livrosResponse);
+        return ResponseEntity.ok(livros);
     }
 
     @GetMapping("/livros/{id}")
@@ -49,9 +49,17 @@ public class LivroController {
         if(livro == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Livro não encontrado");
 
-        LivroDetalheResponse livroDetalhe = new LivroDetalheResponse(livro);
+        LivroDetalheResponse livroDetalheResponse = entityManager.createQuery(
+                " select new com.zup.lucasciscar.casadocodigo.dto.response.LivroDetalheResponse(" +
+                        " l.titulo, l.resumo, l.sumario, l.preco, l.numPaginas," +
+                        " l.isbn, l.dataPublicacao, a.nome, a.descricao" +
+                        " ) " +
+                        " from Livro l" +
+                        " inner join Autor a on l.autor = a.id" +
+                        " where l.id = :value", LivroDetalheResponse.class
+        ).setParameter("value", idLivro).getSingleResult();
 
-        return ResponseEntity.ok(livroDetalhe);
+        return ResponseEntity.ok(livroDetalheResponse);
     }
 
 }

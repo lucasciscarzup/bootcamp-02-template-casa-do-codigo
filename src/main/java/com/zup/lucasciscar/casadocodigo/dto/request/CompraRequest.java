@@ -1,12 +1,10 @@
 package com.zup.lucasciscar.casadocodigo.dto.request;
 
 import com.zup.lucasciscar.casadocodigo.entity.Carrinho;
-import com.zup.lucasciscar.casadocodigo.entity.Estado;
 import com.zup.lucasciscar.casadocodigo.entity.Compra;
+import com.zup.lucasciscar.casadocodigo.entity.Estado;
 import com.zup.lucasciscar.casadocodigo.entity.Pais;
 import com.zup.lucasciscar.casadocodigo.validator.ExistsId;
-import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
-import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -88,16 +86,6 @@ public class CompraRequest {
 
     public CarrinhoRequest getCarrinhoRequest() {
         return carrinhoRequest;
-    }
-
-    public boolean documentoValido() {
-        CPFValidator cpfValidator = new CPFValidator();
-        cpfValidator.initialize(null);
-
-        CNPJValidator cnpjValidator = new CNPJValidator();
-        cnpjValidator.initialize(null);
-
-        return cpfValidator.isValid(documento, null) || cnpjValidator.isValid(documento, null);
     }
 
     public Compra toModel(EntityManager entityManager) {

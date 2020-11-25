@@ -1,6 +1,8 @@
 package com.zup.lucasciscar.casadocodigo.validator;
 
 import com.zup.lucasciscar.casadocodigo.dto.request.CompraRequest;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -19,7 +21,16 @@ public class DocumentoValidator implements Validator {
             return;
 
         CompraRequest request = (CompraRequest) o;
-        if(!request.documentoValido())
+        CPFValidator cpfValidator = new CPFValidator();
+        cpfValidator.initialize(null);
+
+        CNPJValidator cnpjValidator = new CNPJValidator();
+        cnpjValidator.initialize(null);
+
+        boolean documentoValido = cpfValidator.isValid(request.getDocumento(), null) ||
+                cnpjValidator.isValid(request.getDocumento(), null);
+
+        if(!documentoValido)
             errors.rejectValue("documento", null, "CPF/CNPJ inválido");
     }
 }

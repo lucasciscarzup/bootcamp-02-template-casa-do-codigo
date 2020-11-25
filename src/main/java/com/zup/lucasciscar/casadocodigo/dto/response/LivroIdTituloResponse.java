@@ -1,15 +1,13 @@
 package com.zup.lucasciscar.casadocodigo.dto.response;
 
-import com.zup.lucasciscar.casadocodigo.entity.Livro;
-
 public class LivroIdTituloResponse {
 
-    private long id;
+    private Long id;
     private String titulo;
 
-    public LivroIdTituloResponse(Livro livro) {
-        this.id = livro.getId();
-        this.titulo = livro.getTitulo();
+    public LivroIdTituloResponse(Long id, String titulo) {
+        this.id = id;
+        this.titulo = titulo;
     }
 
     public long getId() {
