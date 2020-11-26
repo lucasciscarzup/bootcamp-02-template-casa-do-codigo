@@ -6,12 +6,11 @@ import com.zup.lucasciscar.casadocodigo.compartilhado.validator.EstadoPaisValida
 import com.zup.lucasciscar.casadocodigo.compartilhado.validator.EstadoRequiredValidator;
 import com.zup.lucasciscar.casadocodigo.cupom.CupomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityManager;
@@ -51,6 +50,17 @@ public class CompraController {
         URI uriLocation = uriBuilder.path("/compras/{id}").buildAndExpand(compra.getId()).toUri();
 
         return ResponseEntity.created(uriLocation).build();
+    }
+
+    @GetMapping("/compras/{id}")
+    @Transactional
+    public ResponseEntity<?> detalharCompra(@PathVariable("id") Long idCompra) {
+        Compra compra = entityManager.find(Compra.class, idCompra);
+        if(compra == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Compra não encontrada");
+
+        CompraDetalheResponse compraDetalheResponse = new CompraDetalheResponse(compra);
+        return ResponseEntity.ok(compraDetalheResponse);
     }
 
 }

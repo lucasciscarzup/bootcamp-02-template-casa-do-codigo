@@ -37,7 +37,7 @@ public class CarrinhoRequest {
         Set<ItemCarrinho> itensCarrinho = itens.stream().map(item -> item.toModel(entityManager)).collect(Collectors.toSet());
 
         return (compra) -> {
-            Carrinho carrinho = new Carrinho(compra, itensCarrinho);
+            Carrinho carrinho = new Carrinho(compra, total, itensCarrinho);
             Assert.isTrue(carrinho.totalIgual(total), "O total enviado não corresponde ao total do carrinho");
 
             return carrinho;

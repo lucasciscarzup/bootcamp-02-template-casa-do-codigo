@@ -50,12 +50,11 @@ public class ItemCarrinho {
         return Objects.hash(livro);
     }
 
-    @Override
-    public String toString() {
-        return "ItemCarrinho{" +
-                "livro=" + livro +
-                ", quantidade=" + quantidade +
-                ", precoCompra=" + precoCompra +
-                '}';
+    public Livro getLivro() {
+        return livro;
+    }
+
+    public int getQuantidade() {
+        return quantidade;
     }
 }

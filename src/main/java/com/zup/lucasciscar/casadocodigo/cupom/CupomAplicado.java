@@ -33,4 +33,7 @@ public class CupomAplicado {
         this.validadeCompra = cupom.getValidade();
     }
 
+    public BigDecimal getDescontoCompra() {
+        return descontoCompra;
+    }
 }

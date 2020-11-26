@@ -60,6 +60,11 @@ public class Compra {
     @Embedded
     private CupomAplicado cupomAplicado;
 
+    @Deprecated
+    public Compra() {
+
+    }
+
     public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
                   @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
                   @NotBlank String cidade, @NotNull Pais pais, @NotBlank String telefone, @NotBlank String cep,
@@ -85,7 +90,59 @@ public class Compra {
         this.cupomAplicado = new CupomAplicado(cupom);
     }
 
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public CupomAplicado getCupomAplicado() {
+        return cupomAplicado;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getSobrenome() {
+        return sobrenome;
+    }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public Pais getPais() {
+        return pais;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public Carrinho getCarrinho() {
+        return carrinho;
     }
 }

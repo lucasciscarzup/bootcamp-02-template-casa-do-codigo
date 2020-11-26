@@ -3,6 +3,7 @@ package com.zup.lucasciscar.casadocodigo.compra;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -21,12 +22,23 @@ public class Carrinho {
     @OneToOne
     private Compra compra;
 
+    @NotNull
+    @Positive
+    private BigDecimal total;
+
     @Size(min = 1)
     @ElementCollection
     private Set<ItemCarrinho> itensCarrinho = new HashSet<>();
 
-    public Carrinho(@NotNull @Valid Compra compra, @Size(min = 1) Set<ItemCarrinho> itensCarrinho) {
+    @Deprecated
+    public Carrinho() {
+
+    }
+
+    public Carrinho(@NotNull @Valid Compra compra, @NotNull @Positive BigDecimal total,
+                    @Size(min = 1) Set<ItemCarrinho> itensCarrinho) {
         this.compra = compra;
+        this.total = total;
         this.itensCarrinho.addAll(itensCarrinho);
     }
 
@@ -36,12 +48,11 @@ public class Carrinho {
         return totalCarrinho.doubleValue() == total.doubleValue();
     }
 
-    @Override
-    public String toString() {
-        return "Carrinho{" +
-                "id=" + id +
-                ", pagamento=" + compra +
-                ", itensCarrinho=" + itensCarrinho +
-                '}';
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public Set<ItemCarrinho> getItensCarrinho() {
+        return itensCarrinho;
     }
 }
