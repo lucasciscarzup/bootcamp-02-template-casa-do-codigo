@@ -7,15 +7,17 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
-public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> {
+public class ExistsObjectValidator implements ConstraintValidator<ExistsObject, Object> {
 
+    private String domainAttribute;
     private Class<?> aClass;
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public void initialize(ExistsId params) {
+    public void initialize(ExistsObject params) {
+        domainAttribute = params.fieldName();
         aClass = params.domainClass();
     }
 
@@ -24,7 +26,7 @@ public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> 
         if(value == null)
             return true;
 
-        Query query = entityManager.createQuery("select 1 from " + aClass.getName() + " where id = :value");
+        Query query = entityManager.createQuery("select 1 from " + aClass.getName() + " where " + domainAttribute + " = :value");
         query.setParameter("value", value);
         List<?> list = query.getResultList();
 

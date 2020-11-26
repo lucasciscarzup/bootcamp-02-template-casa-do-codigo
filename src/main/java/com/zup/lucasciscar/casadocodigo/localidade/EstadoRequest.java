@@ -1,6 +1,6 @@
 package com.zup.lucasciscar.casadocodigo.localidade;
 
-import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsId;
+import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsObject;
 import com.zup.lucasciscar.casadocodigo.compartilhado.validator.UniqueValue;
 
 import javax.persistence.EntityManager;
@@ -14,7 +14,7 @@ public class EstadoRequest {
     private String nome;
 
     @NotNull
-    @ExistsId(domainClass = Pais.class)
+    @ExistsObject(domainClass = Pais.class, fieldName = "id")
     private Long idPais;
 
     public EstadoRequest(@NotBlank String nome, @NotNull Long idPais) {

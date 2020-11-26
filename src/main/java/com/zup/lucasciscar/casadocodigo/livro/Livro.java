@@ -65,7 +65,6 @@ public class Livro {
     public Livro(@NotBlank String titulo, @NotBlank @Size(max = 500) String resumo, @NotBlank String sumario, @NotNull @Min(20) BigDecimal preco,
                  @NotNull @Min(100) int numPaginas, @NotBlank String isbn, @NotNull @Future LocalDate dataPublicacao, @NotNull @Valid Categoria categoria,
                  @NotNull @Valid Autor autor) {
-        this.id = id;
         this.titulo = titulo;
         this.resumo = resumo;
         this.sumario = sumario;

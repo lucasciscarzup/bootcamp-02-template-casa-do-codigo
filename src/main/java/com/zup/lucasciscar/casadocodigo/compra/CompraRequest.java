@@ -1,8 +1,11 @@
 package com.zup.lucasciscar.casadocodigo.compra;
 
+import com.zup.lucasciscar.casadocodigo.cupom.Cupom;
+import com.zup.lucasciscar.casadocodigo.cupom.CupomRepository;
 import com.zup.lucasciscar.casadocodigo.localidade.Estado;
 import com.zup.lucasciscar.casadocodigo.localidade.Pais;
-import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsId;
+import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsObject;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -36,10 +39,10 @@ public class CompraRequest {
     private String cidade;
 
     @NotNull
-    @ExistsId(domainClass = Pais.class)
+    @ExistsObject(domainClass = Pais.class, fieldName = "id")
     private Long idPais;
 
-    @ExistsId(domainClass = Estado.class)
+    @ExistsObject(domainClass = Estado.class, fieldName = "id")
     private Long idEstado;
 
     @NotBlank
@@ -52,9 +55,12 @@ public class CompraRequest {
     @NotNull
     private CarrinhoRequest carrinhoRequest;
 
+    @ExistsObject(domainClass = Cupom.class, fieldName = "codigo")
+    private String codigoCupom;
+
     public CompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
                          @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
-                         @NotBlank String cidade, @NotNull Long idPais, Long idEstado, @NotBlank String telefone,
+                         @NotBlank String cidade, @NotNull Long idPais, @NotBlank String telefone,
                          @NotBlank String cep, @Valid @NotNull CarrinhoRequest carrinhoRequest) {
         this.email = email;
         this.nome = nome;
@@ -64,7 +70,6 @@ public class CompraRequest {
         this.complemento = complemento;
         this.cidade = cidade;
         this.idPais = idPais;
-        this.idEstado = idEstado;
         this.telefone = telefone;
         this.cep = cep;
         this.carrinhoRequest = carrinhoRequest;
@@ -86,14 +91,30 @@ public class CompraRequest {
         return carrinhoRequest;
     }
 
-    public Compra toModel(EntityManager entityManager) {
+    public String getCodigoCupom() {
+        return codigoCupom;
+    }
+
+    public void setIdEstado(Long idEstado) {
+        this.idEstado = idEstado;
+    }
+
+    public void setCodigoCupom(String codigoCupom) {
+        this.codigoCupom = codigoCupom;
+    }
+
+    public Compra toModel(EntityManager entityManager, CupomRepository cupomRepository) {
         Pais pais = entityManager.find(Pais.class, idPais);
 
         Function<Compra, Carrinho> funcaoCriaCarrinho = carrinhoRequest.toModel(entityManager);
         Compra compra = new Compra(email, nome, sobrenome, documento, endereco, complemento, cidade, pais,
                                             telefone, cep, funcaoCriaCarrinho);
-        if(idEstado != null) {
+        if(idEstado != null)
             compra.setEstado(entityManager.find(Estado.class, idEstado));
+
+        if(StringUtils.hasText(codigoCupom)) {
+            Cupom cupom = cupomRepository.findByCodigo(codigoCupom);
+            compra.aplicaCupom(cupom);
         }
 
         return compra;

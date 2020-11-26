@@ -3,7 +3,7 @@ package com.zup.lucasciscar.casadocodigo.livro;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zup.lucasciscar.casadocodigo.autor.Autor;
 import com.zup.lucasciscar.casadocodigo.categoria.Categoria;
-import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsId;
+import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsObject;
 import com.zup.lucasciscar.casadocodigo.compartilhado.validator.UniqueValue;
 
 import javax.persistence.EntityManager;
@@ -42,11 +42,11 @@ public class LivroRequest {
     private LocalDate dataPublicacao;
 
     @NotNull
-    @ExistsId(domainClass = Categoria.class)
+    @ExistsObject(domainClass = Categoria.class, fieldName = "id")
     private Long idCategoria;
 
     @NotNull
-    @ExistsId(domainClass = Autor.class)
+    @ExistsObject(domainClass = Autor.class, fieldName = "id")
     private Long idAutor;
 
     public LivroRequest(@NotBlank String titulo, @NotBlank @Size(max = 500) String resumo, @NotBlank String sumario, @NotNull @Min(20) BigDecimal preco,

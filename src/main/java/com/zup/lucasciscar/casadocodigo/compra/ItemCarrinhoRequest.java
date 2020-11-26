@@ -1,7 +1,7 @@
 package com.zup.lucasciscar.casadocodigo.compra;
 
 import com.zup.lucasciscar.casadocodigo.livro.Livro;
-import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsId;
+import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsObject;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Positive;
 public class ItemCarrinhoRequest {
 
     @NotNull
-    @ExistsId(domainClass = Livro.class)
+    @ExistsObject(domainClass = Livro.class, fieldName = "id")
     private Long idLivro;
 
     @Positive

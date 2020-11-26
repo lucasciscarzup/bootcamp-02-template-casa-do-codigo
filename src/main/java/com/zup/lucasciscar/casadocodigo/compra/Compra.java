@@ -1,5 +1,7 @@
 package com.zup.lucasciscar.casadocodigo.compra;
 
+import com.zup.lucasciscar.casadocodigo.cupom.Cupom;
+import com.zup.lucasciscar.casadocodigo.cupom.CupomAplicado;
 import com.zup.lucasciscar.casadocodigo.localidade.Estado;
 import com.zup.lucasciscar.casadocodigo.localidade.Pais;
 
@@ -55,6 +57,9 @@ public class Compra {
     @OneToOne(mappedBy = "compra", cascade = CascadeType.PERSIST)
     private Carrinho carrinho;
 
+    @Embedded
+    private CupomAplicado cupomAplicado;
+
     public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
                   @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
                   @NotBlank String cidade, @NotNull Pais pais, @NotBlank String telefone, @NotBlank String cep,
@@ -74,6 +79,10 @@ public class Compra {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    public void aplicaCupom(Cupom cupom) {
+        this.cupomAplicado = new CupomAplicado(cupom);
     }
 
     public Long getId() {
