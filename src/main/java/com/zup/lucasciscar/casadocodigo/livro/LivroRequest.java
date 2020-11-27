@@ -70,7 +70,17 @@ public class LivroRequest {
         Assert.state(categoria != null, "Categoria não pode ser nula");
         Assert.state(autor != null, "Autor não pode ser nulo");
 
-        return new Livro(titulo, resumo, sumario, preco, numPaginas, isbn, dataPublicacao, categoria, autor);
+        return new LivroBuilder()
+                .addTitulo(titulo)
+                .addResumo(resumo)
+                .addSumario(sumario)
+                .addPreco(preco)
+                .addNumPaginas(numPaginas)
+                .addIsbn(isbn)
+                .addDataPublicacao(dataPublicacao)
+                .addCategoria(categoria)
+                .addAutor(autor)
+                .build();
     }
 
     public void setDataPublicacao(LocalDate dataPublicacao) {

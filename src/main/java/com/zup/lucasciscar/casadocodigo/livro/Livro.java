@@ -62,18 +62,16 @@ public class Livro {
 
     }
 
-    public Livro(@NotBlank String titulo, @NotBlank @Size(max = 500) String resumo, @NotBlank String sumario, @NotNull @Min(20) BigDecimal preco,
-                 @NotNull @Min(100) int numPaginas, @NotBlank String isbn, @NotNull @Future LocalDate dataPublicacao, @NotNull @Valid Categoria categoria,
-                 @NotNull @Valid Autor autor) {
-        this.titulo = titulo;
-        this.resumo = resumo;
-        this.sumario = sumario;
-        this.preco = preco;
-        this.numPaginas = numPaginas;
-        this.isbn = isbn;
-        this.dataPublicacao = dataPublicacao;
-        this.categoria = categoria;
-        this.autor = autor;
+    public Livro(LivroBuilder livroBuilder) {
+        this.titulo = livroBuilder.getTitulo();
+        this.resumo = livroBuilder.getResumo();
+        this.sumario = livroBuilder.getSumario();
+        this.preco = livroBuilder.getPreco();
+        this.numPaginas = livroBuilder.getNumPaginas();
+        this.isbn = livroBuilder.getIsbn();
+        this.dataPublicacao = livroBuilder.getDataPublicacao();
+        this.categoria = livroBuilder.getCategoria();
+        this.autor = livroBuilder.getAutor();
     }
 
     public Long getId() {

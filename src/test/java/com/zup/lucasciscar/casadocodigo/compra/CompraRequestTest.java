@@ -5,6 +5,7 @@ import com.zup.lucasciscar.casadocodigo.categoria.Categoria;
 import com.zup.lucasciscar.casadocodigo.cupom.Cupom;
 import com.zup.lucasciscar.casadocodigo.cupom.CupomRepository;
 import com.zup.lucasciscar.casadocodigo.livro.Livro;
+import com.zup.lucasciscar.casadocodigo.livro.LivroBuilder;
 import com.zup.lucasciscar.casadocodigo.localidade.Estado;
 import com.zup.lucasciscar.casadocodigo.localidade.Pais;
 import org.junit.jupiter.api.Assertions;
@@ -30,8 +31,17 @@ public class CompraRequestTest {
     private Pais pais = new Pais("Brasil");
     private Autor autor = new Autor("Lucas", "lucas@zup.com.br", "Descrição Teste");
     private Categoria categoria = new Categoria("TI");
-    private Livro livro = new Livro("Título Teste", "Resumo Teste", "Sumário Teste", BigDecimal.TEN, 100,
-            "987654321", LocalDate.of(2020, 12, 25), categoria, autor);
+    private Livro livro = new LivroBuilder()
+            .addTitulo("Título Teste")
+            .addResumo("Resumo Teste")
+            .addSumario("Sumário Teste")
+            .addPreco(BigDecimal.TEN)
+            .addNumPaginas(100)
+            .addIsbn("987654321")
+            .addDataPublicacao(LocalDate.of(2020, 12, 25))
+            .addCategoria(categoria)
+            .addAutor(autor)
+            .build();
 
     {
         Mockito.when(entityManager.find(Pais.class, 1L)).thenReturn(pais);
