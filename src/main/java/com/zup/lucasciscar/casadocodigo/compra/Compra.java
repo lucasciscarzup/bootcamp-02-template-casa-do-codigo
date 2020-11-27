@@ -5,6 +5,7 @@ import com.zup.lucasciscar.casadocodigo.cupom.CupomAplicado;
 import com.zup.lucasciscar.casadocodigo.localidade.Estado;
 import com.zup.lucasciscar.casadocodigo.localidade.Pais;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -66,30 +67,24 @@ public class Compra {
 
     }
 
-    public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
-                  @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
-                  @NotBlank String cidade, @NotNull Pais pais, @NotBlank String telefone, @NotBlank String cep,
-                  Function<Compra, Carrinho> funcaoCriaCarrinho) {
-        this.email = email;
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.documento = documento;
-        this.endereco = endereco;
-        this.complemento = complemento;
-        this.cidade = cidade;
-        this.pais = pais;
-        this.telefone = telefone;
-        this.cep = cep;
-        this.carrinho = funcaoCriaCarrinho.apply(this);
+    public Compra(CompraBuilder compraBuilder) {
+        this.email = compraBuilder.getEmail();
+        this.nome = compraBuilder.getNome();
+        this.sobrenome = compraBuilder.getSobrenome();
+        this.documento = compraBuilder.getDocumento();
+        this.endereco = compraBuilder.getEndereco();
+        this.complemento = compraBuilder.getComplemento();
+        this.cidade = compraBuilder.getCidade();
+        this.pais = compraBuilder.getPais();
+        this.estado = compraBuilder.getEstado();
+        this.telefone = compraBuilder.getTelefone();
+        this.cep = compraBuilder.getCep();
+        this.carrinho = compraBuilder.getFuncaoCriaCarrinho().apply(this);
+        this.cupomAplicado = compraBuilder.getCupomAplicado();
     }
 
     public void setEstado(Estado estado) {
         this.estado = estado;
-    }
-
-    public void aplicaCupom(Cupom cupom) {
-        Assert.isTrue(cupom.valido(), "Cupom expirado");
-        this.cupomAplicado = new CupomAplicado(cupom);
     }
 
     public Estado getEstado() {

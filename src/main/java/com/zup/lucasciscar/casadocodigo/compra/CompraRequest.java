@@ -1,6 +1,7 @@
 package com.zup.lucasciscar.casadocodigo.compra;
 
 import com.zup.lucasciscar.casadocodigo.cupom.Cupom;
+import com.zup.lucasciscar.casadocodigo.cupom.CupomAplicado;
 import com.zup.lucasciscar.casadocodigo.cupom.CupomRepository;
 import com.zup.lucasciscar.casadocodigo.localidade.Estado;
 import com.zup.lucasciscar.casadocodigo.localidade.Pais;
@@ -123,17 +124,28 @@ public class CompraRequest {
         Pais pais = entityManager.find(Pais.class, idPais);
 
         Function<Compra, Carrinho> funcaoCriaCarrinho = carrinhoRequest.toModel(entityManager);
-        Compra compra = new Compra(email, nome, sobrenome, documento, endereco, complemento, cidade, pais,
-                                            telefone, cep, funcaoCriaCarrinho);
+        CompraBuilder compraBuilder = new CompraBuilder()
+                .addEmail(email)
+                .addNome(nome)
+                .addSobrenome(sobrenome)
+                .addDocumento(documento)
+                .addEndereco(endereco)
+                .addComplemento(complemento)
+                .addCidade(cidade)
+                .addPais(pais)
+                .addTelefone(telefone)
+                .addCep(cep)
+                .addFuncaoCriaCarrinho(funcaoCriaCarrinho);
+
         if(idEstado != null)
-            compra.setEstado(entityManager.find(Estado.class, idEstado));
+            compraBuilder.addEstado(entityManager.find(Estado.class, idEstado));
 
         if(StringUtils.hasText(codigoCupom)) {
             Cupom cupom = cupomRepository.findByCodigo(codigoCupom);
-            compra.aplicaCupom(cupom);
+            compraBuilder.addCupomAplicado(new CupomAplicado(cupom));
         }
 
-        return compra;
+        return compraBuilder.build();
     }
 
 }

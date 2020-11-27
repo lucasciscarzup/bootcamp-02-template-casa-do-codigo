@@ -9,7 +9,6 @@ import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
 
 @Component
 public class CupomValidator implements Validator {
