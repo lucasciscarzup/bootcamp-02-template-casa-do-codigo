@@ -1,7 +1,5 @@
 package com.zup.lucasciscar.casadocodigo.compra;
 
-import com.zup.lucasciscar.casadocodigo.cupom.CupomAplicado;
-import com.zup.lucasciscar.casadocodigo.localidade.Estado;
 import com.zup.lucasciscar.casadocodigo.localidade.EstadoResponse;
 import com.zup.lucasciscar.casadocodigo.localidade.PaisResponse;
 

@@ -5,6 +5,7 @@ import com.zup.lucasciscar.casadocodigo.autor.Autor;
 import com.zup.lucasciscar.casadocodigo.categoria.Categoria;
 import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsObject;
 import com.zup.lucasciscar.casadocodigo.compartilhado.validator.UniqueValue;
+import org.springframework.util.Assert;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.*;
@@ -49,8 +50,9 @@ public class LivroRequest {
     @ExistsObject(domainClass = Autor.class, fieldName = "id")
     private Long idAutor;
 
-    public LivroRequest(@NotBlank String titulo, @NotBlank @Size(max = 500) String resumo, @NotBlank String sumario, @NotNull @Min(20) BigDecimal preco,
-                        @NotNull @Min(100) int numPaginas, @NotBlank String isbn, @NotNull Long idCategoria, @NotNull Long idAutor) {
+    public LivroRequest(@NotBlank String titulo, @NotBlank @Size(max = 500) String resumo, @NotBlank String sumario,
+                        @NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) int numPaginas, @NotBlank String isbn,
+                        @NotNull Long idCategoria, @NotNull Long idAutor) {
         this.titulo = titulo;
         this.resumo = resumo;
         this.sumario = sumario;
@@ -64,6 +66,9 @@ public class LivroRequest {
     public Livro toModel(EntityManager entityManager) {
         Categoria categoria = entityManager.find(Categoria.class, idCategoria);
         Autor autor = entityManager.find(Autor.class, idAutor);
+
+        Assert.state(categoria != null, "Categoria não pode ser nula");
+        Assert.state(autor != null, "Autor não pode ser nulo");
 
         return new Livro(titulo, resumo, sumario, preco, numPaginas, isbn, dataPublicacao, categoria, autor);
     }

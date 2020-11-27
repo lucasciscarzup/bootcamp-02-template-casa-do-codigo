@@ -42,6 +42,10 @@ public class Cupom {
         this.validade = validade;
     }
 
+    public boolean valido() {
+        return LocalDate.now().compareTo(this.validade) <= 0;
+    }
+
     public String getCodigo() {
         return codigo;
     }

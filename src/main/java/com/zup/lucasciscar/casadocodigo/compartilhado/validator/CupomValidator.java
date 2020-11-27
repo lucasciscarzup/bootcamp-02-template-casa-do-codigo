@@ -32,7 +32,7 @@ public class CupomValidator implements Validator {
             Cupom cupom = entityManager.createQuery("from Cupom where codigo = :value", Cupom.class)
                     .setParameter("value", request.getCodigoCupom()).getSingleResult();
 
-            if(LocalDate.now().isAfter(cupom.getValidade()))
+            if(!cupom.valido())
                 errors.rejectValue("codigoCupom", null, "Cupom expirado");
         }
     }

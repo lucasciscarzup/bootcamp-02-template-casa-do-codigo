@@ -4,6 +4,7 @@ import com.zup.lucasciscar.casadocodigo.cupom.Cupom;
 import com.zup.lucasciscar.casadocodigo.cupom.CupomAplicado;
 import com.zup.lucasciscar.casadocodigo.localidade.Estado;
 import com.zup.lucasciscar.casadocodigo.localidade.Pais;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -87,6 +88,7 @@ public class Compra {
     }
 
     public void aplicaCupom(Cupom cupom) {
+        Assert.isTrue(cupom.valido(), "Cupom expirado");
         this.cupomAplicado = new CupomAplicado(cupom);
     }
 

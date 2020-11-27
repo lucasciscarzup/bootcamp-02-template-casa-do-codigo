@@ -5,6 +5,9 @@ import com.zup.lucasciscar.casadocodigo.cupom.CupomRepository;
 import com.zup.lucasciscar.casadocodigo.localidade.Estado;
 import com.zup.lucasciscar.casadocodigo.localidade.Pais;
 import com.zup.lucasciscar.casadocodigo.compartilhado.validator.ExistsObject;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
+import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -101,6 +104,19 @@ public class CompraRequest {
 
     public void setCodigoCupom(String codigoCupom) {
         this.codigoCupom = codigoCupom;
+    }
+
+    public boolean documentoValido() {
+        Assert.hasLength(documento, "Documento não pode ser nulo");
+
+        CPFValidator cpfValidator = new CPFValidator();
+        cpfValidator.initialize(null);
+
+        CNPJValidator cnpjValidator = new CNPJValidator();
+        cnpjValidator.initialize(null);
+
+        return cpfValidator.isValid(documento, null) ||
+                cnpjValidator.isValid(documento, null);
     }
 
     public Compra toModel(EntityManager entityManager, CupomRepository cupomRepository) {
